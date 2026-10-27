@@ -46,7 +46,7 @@ fn pkcs8_pki_into_keypair_data(pki: PrivateKeyInfoRef<'_>) -> Result<KeypairData
     // Temporary if {} due to multiple const_oid crate versions
     #[cfg(feature = "rsa")]
     if pki.algorithm.oid.as_bytes() == pkcs1::ALGORITHM_OID.as_bytes() {
-        let sk = &pkcs1::RsaPrivateKey::try_from(pki.private_key)?;
+        let sk = &pkcs1::RsaPrivateKeyRef::try_from(pki.private_key)?;
         let pk = rsa::RsaPrivateKey::from_components(
             rsa::BoxedUint::from_be_slice_vartime(sk.modulus.as_bytes()),
             rsa::BoxedUint::from_be_slice_vartime(sk.public_exponent.as_bytes()),
